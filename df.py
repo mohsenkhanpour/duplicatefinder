@@ -29,9 +29,10 @@ result = client(GetHistoryRequest(
 #print(result.stringify())
 found_messages = result.to_dict()
 print(found_messages)
-#stringdata = result.stringify()
-#dictdata = stringdata.to_dict()
-#with open('data.json', 'w', encoding='utf-8') as f:
-#  json.dump(dictdata, f, ensure_ascii=False,sort_keys=True, indent=4, separators=(',', ': '))
+for message in messages:
+    if message.message in found_messages:
+        # Handle duplicate here
+    else:
+        found_messages.append(message.message)
 
 #print(result.stringify())
