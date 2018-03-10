@@ -17,22 +17,24 @@ client.start()
 print(client.get_me().stringify())
 
 result = client(GetHistoryRequest(
-    peer=-1001133834014,    # On which chat/conversation
+    peer=################,    # On which chat/conversation
     offset_date=None,       # Maximum date
     offset_id=0,            # ID of the message to use as offset
     add_offset=0,           # Additional offset
-    limit=5,                # How many results
+    limit=1000000,                # How many results
     max_id=0,               # Maximum message ID
     min_id=0,               # Minimum message ID
     hash=0                  # Who must have sent the message (peer)
 ))
-#print(result.stringify())
-found_messages = result.to_dict()
-print(found_messages)
-for message in messages:
-    if message.message in found_messages:
-        # Handle duplicate here
-    else:
-        found_messages.append(message.message)
 
 #print(result.stringify())
+messages = result.messages
+
+found_messages = []
+for message in messages:
+    if message.media.caption in found_messages:
+        print(message.id)
+    else:
+        found_messages.append(message.media.caption)
+    
+print(found_messages)
