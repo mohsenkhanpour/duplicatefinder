@@ -23,7 +23,8 @@ print("Connected as:", client.get_me().username)
 
 result = client(GetHistoryRequest(
     peer=channel_name,      # On which chat/conversation
-    offset_date=datetime.date(2018, 6, 2),       # Maximum date
+    # Maximum date
+    offset_date=datetime.date(2018, 6, 2),
     offset_id=0,            # ID of the message to use as offset
     add_offset=0,           # Additional offset
     limit=1000000,          # How many results
