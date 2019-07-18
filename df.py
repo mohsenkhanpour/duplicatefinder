@@ -19,23 +19,24 @@ channel_name = os.getenv("CHANNEL_NAME")
 
 client = TelegramClient('DuplicateFinder', api_id, api_hash)
 client.start()
-print(client.get_me().stringify())
+print("Connected as:", client.get_me().username)
 
 result = client(GetHistoryRequest(
-    peer=channel_name,  # On which chat/conversation
+    peer=channel_name,      # On which chat/conversation
     offset_date=datetime.date(2018, 6, 2),       # Maximum date
     offset_id=0,            # ID of the message to use as offset
     add_offset=0,           # Additional offset
-    limit=1000000,                # How many results
+    limit=1000000,          # How many results
     max_id=0,               # Maximum message ID
     min_id=0,               # Minimum message ID
     hash=0                  # Who must have sent the message (peer)
 ))
 
-#print(result.stringify())
+# print(result.stringify())
 messages = result.messages
 
 found_messages = []
+duplicate_messages = []
 for message in messages:
     if message.message in found_messages:
         print(message.id)
