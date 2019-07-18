@@ -1,6 +1,5 @@
 .env
 /venv
 /.vscode
-DuplicateFinder.session
 dev.py
-.env.mamad
+DuplicateFinder.session
