@@ -15,7 +15,7 @@ print("Connected as:", client.get_me().username)
 for message in messages_ds_get:
         print(message.id, message.message) """
 
-messages_ds_iter = client.iter_messages("dailystrips", limit=10000000)
+messages_ds_iter = client.iter_messages("dailystrips", limit=1000000000)
 
 unique_messages = []
 duplicate_messages = []
