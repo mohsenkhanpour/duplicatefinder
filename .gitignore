@@ -4,6 +4,6 @@
 dev.py
 DuplicateFinder.session
 DuplicateFinder.session-journal
-output.txt
+output**.txt
 .gitignore
 .tool-versions
