@@ -1,47 +1,52 @@
 import os
-import json
-import datetime
-import asyncio
-from datetime import timedelta
 from telethon import TelegramClient, events, sync
-from telethon.tl.functions.messages import SearchRequest
-from telethon.tl.types import InputMessagesFilterEmpty
-from telethon.tl.functions.messages import GetHistoryRequest
 from dotenv import load_dotenv
 load_dotenv()
 
-# These example values won't work. You must get your own api_id and
-# api_hash from https://my.telegram.org, under API Development.
+# Client configuration
 api_id = os.getenv("API_ID")
 api_hash = os.getenv("API_HASH")
-channel_name = os.getenv("CHANNEL_NAME")
-
+chat_id = os.getenv("CHAT_ID")
 
 client = TelegramClient('DuplicateFinder', api_id, api_hash)
 client.start()
 print("Connected as:", client.get_me().username)
 
-result = client(GetHistoryRequest(
-    peer=channel_name,      # On which chat/conversation
-    # Maximum date
-    offset_date=datetime.date(2018, 6, 2),
-    offset_id=0,            # ID of the message to use as offset
-    add_offset=0,           # Additional offset
-    limit=100,          # How many results
-    max_id=0,               # Maximum message ID
-    min_id=0,               # Minimum message ID
-    hash=0                  # Who must have sent the message (peer)
-))
+""" messages_ds_get = client.get_messages("dailystrips", limit=5)
+for message in messages_ds_get:
+        print(message.id, message.message) """
 
-# print(result.stringify())
-messages = result.messages
+messages_ds_iter = client.iter_messages(
+    "dailystrips", limit=1000000, min_id=307522)
 
-found_messages = []
+unique_messages = []
 duplicate_messages = []
-for message in messages:
-    if message.message in found_messages:
-        print(message.id)
-    else:
-        found_messages.append(message.message)
+duplicate_ids = []
 
-print(found_messages)
+for message in messages_ds_iter:
+    if message.message in unique_messages:
+        duplicate_messages.append(message.message)
+        duplicate_ids.append(message.id)
+        print("duplicate found:", message.id)
+    else:
+        unique_messages.append(message.message)
+
+print(duplicate_ids, file=open("output_ids.txt", "w"))
+
+
+def save_to_file(message):
+    print(str(message.encode("unicode_escape"), "utf-8"),
+          "\n", file=open("output.txt", "a"))
+
+
+for message in duplicate_messages:
+    save_to_file(message)
+
+print(duplicate_ids)
+
+for message in duplicate_ids:
+    client.delete_messages("dailystrips", message)
+    print("duplicate removed:", message)
+
+#client.delete_messages("dailystrips", duplicate_ids)
+print("duplicates removed")

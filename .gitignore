@@ -1,9 +1,11 @@
 .env
 /venv
 /.vscode
-dev.py
+/.archive
+
+
+
 DuplicateFinder.session
 DuplicateFinder.session-journal
+
 output**.txt
-.gitignore
-.tool-versions
