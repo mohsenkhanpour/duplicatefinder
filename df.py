@@ -17,7 +17,7 @@ print("Connected as:", client.get_me().username)
 
 
 # Iterate over messages
-messages_ds_iter = client.iter_messages(chat_id, limit=1000000, min_id=307522)
+messages_ds_iter = client.iter_messages(chat_id, limit=1000000, min_id=337260)
 
 unique_messages = []
 duplicate_messages = []
